@@ -55,7 +55,7 @@ const PayPalConnection: ProcessorConnection<
       const responseText = JSON.parse(response.responseText)
       const status = responseText.purchase_units[0].payments.authorizations[0].status
       const transactionId = responseText.purchase_units[0].payments.authorizations[0].id
-      const result: ParsedAuthorizationResponse
+      let result: ParsedAuthorizationResponse
 
       /*
       * returning a ParsedAuthorisationResponse
@@ -118,7 +118,7 @@ const PayPalConnection: ProcessorConnection<
       body: ''
     })
     .then((response) => {
-      const result: ParsedCaptureResponse
+      let result: ParsedCaptureResponse
       
       /*
       * returning a ParsedCaptureResponse
