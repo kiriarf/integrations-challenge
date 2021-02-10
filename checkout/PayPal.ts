@@ -39,9 +39,9 @@ const PayPalConnection: ProcessorConnection<
     request: RawAuthorizationRequest<ClientIDSecretCredentials, PayPalOrder>,
   ): Promise<ParsedAuthorizationResponse> {
     //encoding the client_id:secret string to base 64 and concatenating the URL string for request
-    let str = `${ request.processorConfig.clientId }:${ request.processorConfig.clientSecret }`
-    let auth = Buffer.from(str).toString("base64")
-    let url = 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' + request.paymentMethod.orderId + '/authorize'
+    const str = `${ request.processorConfig.clientId }:${ request.processorConfig.clientSecret }`
+    const auth = Buffer.from(str).toString("base64")
+    const url = 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' + request.paymentMethod.orderId + '/authorize'
 
     return HTTPClient.request(url, {
       headers: {
@@ -52,10 +52,10 @@ const PayPalConnection: ProcessorConnection<
       body: ''
     })
     .then((response) => {
-      let responseText = JSON.parse(response.responseText)
-      let status = responseText.purchase_units[0].payments.authorizations[0].status
-      let transactionId = responseText.purchase_units[0].payments.authorizations[0].id
-      let result: ParsedAuthorizationResponse
+      const responseText = JSON.parse(response.responseText)
+      const status = responseText.purchase_units[0].payments.authorizations[0].status
+      const transactionId = responseText.purchase_units[0].payments.authorizations[0].id
+      const result: ParsedAuthorizationResponse
 
       /*
       * returning a ParsedAuthorisationResponse
@@ -106,9 +106,9 @@ const PayPalConnection: ProcessorConnection<
     request: RawCancelRequest<ClientIDSecretCredentials>,
   ): Promise<ParsedCaptureResponse> {
     //encoding the client_id:secret string to base 64 and concatenating the URL string for request
-    let str = `${ request.processorConfig.clientId }:${ request.processorConfig.clientSecret }`
-    let auth = Buffer.from(str).toString("base64")
-    let url = 'https://api-m.sandbox.paypal.com/v2/payments/authorizations/' + request.processorTransactionId + '/void'
+    const str = `${ request.processorConfig.clientId }:${ request.processorConfig.clientSecret }`
+    const auth = Buffer.from(str).toString("base64")
+    const url = 'https://api-m.sandbox.paypal.com/v2/payments/authorizations/' + request.processorTransactionId + '/void'
     return HTTPClient.request(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ const PayPalConnection: ProcessorConnection<
       body: ''
     })
     .then((response) => {
-      let result: ParsedCaptureResponse
+      const result: ParsedCaptureResponse
       
       /*
       * returning a ParsedCaptureResponse
